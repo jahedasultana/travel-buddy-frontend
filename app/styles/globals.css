@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Colors */
+  --primary: #0F766E;
+  --secondary: #F97316;
+  
+  /* Backgrounds */
+  --background: #F3F4F6;
+  --surface: #FFFFFF;
+  
+  /* Text */
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  
+  /* Status */
+  --success: #10B981;
+  --error: #EF4444;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+.dark {
+  /* Brand Colors */
+  --primary: #14B8A6; /* Lighter teal for dark mode */
+  --secondary: #FB923C; /* Lighter orange */
+  
+  /* Backgrounds */
+  --background: #111827; /* Gray 900 */
+  --surface: #1F2937; /* Gray 800 */
+  
+  /* Text */
+  --text-primary: #F9FAFB; /* Gray 50 */
+  --text-secondary: #D1D5DB; /* Gray 300 */
+  --text-tertiary: #9CA3AF; /* Gray 400 */
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  
+  /* Fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
+}

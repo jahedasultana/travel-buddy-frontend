@@ -1,86 +1,58 @@
-# Travel Buddy Frontend
+# Travel Buddy - Frontend Client
 
-**Live Demo:** [Add your live URL here]
+The modern web interface for Travel Buddy, built with **Next.js 16**, **Redux Toolkit**, and **Tailwind CSS**.
 
-The **Travel Buddy Frontend** is a modern, responsive, and interactive web application built with Next.js and TailwindCSS. It allows users to explore travel plans, join trips, leave reviews, and manage their profile seamlessly.
+## 🏗️ Project Structure
 
----
-
-## Features
-
-- **Explore Travel Plans:** Filter by destination, travel type, date range, and budget.  
-- **Travel Plan Details:** View plan details, host information, and join requests.  
-- **Real-time Search & Filters:** Search and filter plans dynamically without page reloads.  
-- **Join Requests:** Send join requests to travel plans and view request status.  
-- **User Reviews:** Leave and view reviews after completing trips.  
-- **Dashboard:** View personal travel plans, join requests, and submitted reviews.  
-- **Responsive Design:** Fully mobile-friendly with modern UI components.  
-- **Interactive UI:** Uses ShadCN UI, Lucide icons, and TailwindCSS for a polished user experience.
-- **Subscription system:** Monthly and yearly subscription system using stripe.
-
----
-
-## Technology Stack
-
-- **Framework:** Next.js 14 (App Router)  
-- **Language:** TypeScript  
-- **UI & Styling:** TailwindCSS, ShadCN UI, Lucide Icons  
-- **State & Data Fetching:** React hooks, Server Actions, SWR (optional)  
-- **Authentication:** JWT-based authentication (connected to backend)  
-- **API:** REST APIs to interact with backend services (Travel Plans, Join Requests, Reviews)  
-
----
-
-## Setup & Usage
-
-### Prerequisites
-- Node.js v20+  
-- npm or yarn  
-- Access to backend API server  
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <frontend-repo-url>
-cd travel-buddy-frontend
+```text
+frontend/
+├── app/
+│   ├── (auth)/            # Auth routes (Login, Register)
+│   ├── (user)/            # User routes (Profile)
+│   ├── components/        # Reusable UI components (Navbar, Cards)
+│   ├── utils/             # Helpers & API clients
+│   └── layout.tsx         # Root layout & Providers
+├── lib/
+│   └── redux/             # State Management
+│       ├── services/      # RTK Query API slices
+│       ├── slices/        # Global Redux slices
+│       └── store.ts       # Store configuration
+└── public/                # Static assets
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+## 🧠 State Management (Redux Toolkit)
 
-3. Install dependencies:
-```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:4000/api
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=your_stripe_public_key
-```
+We utilize **RTK Query** for efficient server-state management.
 
-4. Start the development server:
-```bash
-npm run dev
-```
+-   **`apiSlice.ts`**: The central API definition. It handles base queries, authentication headers, and automatic caching/invalidation.
+-   **`store.ts`**: The Redux store configuration.
+-   **Typed Hooks**: `useAppDispatch` and `useAppSelector` are pre-typed for TypeScript safety.
 
-5. Open in browser:
-```bash
-http://localhost:3000
-```
+## 🎨 Styling & Theming
 
-6. Build for Production
-```bash
-npm run build
-npm run start
-```
+-   **Framework**: Tailwind CSS (v4)
+-   **Design System**: Custom color palette (Teal/Emerald primary) defined in `globals.css`.
+-   **Icons**: Lucide React for modern, scalable SVG icons.
+-   **UI Components**: We prioritize building composable components (e.g., `TravelPlanCard`, `EditProfileModal`) over using a heavy component library.
 
+## ⚙️ Environment Configuration
 
-/src
-  /app
-    /explore          # Explore page
-    /travel-plans     # Travel plan details page
-    /user/dashboard   # User dashboard pages
-  /components
-    /shared           # Reusable components (cards, tables, buttons)
-    /ui               # ShadCN UI wrappers
-  /services           # API calls
-  /lib 
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_API_URL` | Backend API Endpoint | `http://localhost:5000/api` |
+| `BETTER_AUTH_URL` | Auth Service URL | `http://localhost:5000` |
+
+## 🚀 Scripts
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev` | Start the development server with TurboPack. |
+| `npm run build` | Build the application for production. |
+| `npm run start` | Start the production server. |
+| `npm run lint` | Run ESLint to check for code quality issues. |
+
+## 📦 Key Dependencies
+
+-   **framer-motion**: For smooth layout animations and transitions.
+-   **sonner**: For non-blocking, reliable toast notifications.
+-   **better-auth/client**: For handling client-side authentication sessions.

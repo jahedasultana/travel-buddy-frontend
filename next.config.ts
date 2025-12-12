@@ -1,15 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  images: {
-    remotePatterns: [
+  async rewrites() {
+    return [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com'
-      }
-    ]
-  }
+        source: "/api/:path*",
+        destination: "https://travelbuddy-server.jakariya.eu.org/api/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
