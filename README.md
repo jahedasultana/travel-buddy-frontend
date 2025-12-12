@@ -39,8 +39,8 @@ We utilize **RTK Query** for efficient server-state management.
 
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `NEXT_PUBLIC_API_URL` | Backend API Endpoint | `http://localhost:5000/api` |
-| `BETTER_AUTH_URL` | Auth Service URL | `http://localhost:5000` |
+| `NEXT_PUBLIC_API_URL` | Backend API Endpoint | `https://travelbuddybackend.vercel.app/api` |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | Auth Service URL | `https://travelbuddybackend.vercel.app` |
 
 ## 🚀 Scripts
 

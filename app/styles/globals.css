@@ -2,20 +2,20 @@
 
 :root {
   /* Brand Colors */
-  --primary: #0F766E;
-  --secondary: #F97316;
+  --primary: #3B82F6;
+  --secondary: #8B5CF6;
   
   /* Backgrounds */
-  --background: #F3F4F6;
+  --background: #FAFAFA;
   --surface: #FFFFFF;
   
   /* Text */
-  --text-primary: #111827;
-  --text-secondary: #6B7280;
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
   --text-tertiary: #9CA3AF;
   
   /* Status */
-  --success: #10B981;
+  --success: #22C55E;
   --error: #EF4444;
 }
 
@@ -23,17 +23,17 @@
 
 .dark {
   /* Brand Colors */
-  --primary: #14B8A6; /* Lighter teal for dark mode */
-  --secondary: #FB923C; /* Lighter orange */
+  --primary: #60A5FA;
+  --secondary: #A78BFA;
   
   /* Backgrounds */
-  --background: #111827; /* Gray 900 */
-  --surface: #1F2937; /* Gray 800 */
+  --background: #0F172A;
+  --surface: #1E293B;
   
   /* Text */
-  --text-primary: #F9FAFB; /* Gray 50 */
-  --text-secondary: #D1D5DB; /* Gray 300 */
-  --text-tertiary: #9CA3AF; /* Gray 400 */
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
 }
 
 @theme inline {
