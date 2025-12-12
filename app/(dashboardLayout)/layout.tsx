@@ -4,6 +4,8 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { IUserInfo } from "@/types/user.interface"
 import getLogedInUser from "@/utils/getLogedInUser"
 
+export const dynamic = 'force-dynamic'
+
 const CommonDashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const userInfo = await getLogedInUser() as IUserInfo
   return (

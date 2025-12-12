@@ -2,6 +2,8 @@ import Footer from '@/components/Footer'
 import Navbar from '@/components/shared/layout/Navbar'
 import React from 'react'
 
+export const dynamic = 'force-dynamic'
+
 const layout = ({ children }: {
     children: React.ReactNode
 }) => {

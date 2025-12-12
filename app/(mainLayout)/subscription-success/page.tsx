@@ -4,9 +4,9 @@ export const dynamic = "force-dynamic";
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 
-const SubscriptionSuccess = () => {
+const SubscriptionSuccessContent = () => {
     const searchParams = useSearchParams()
     const sessionId = searchParams.get("session_id")
 
@@ -147,6 +147,14 @@ const SubscriptionSuccess = () => {
                 </Link>
             </div>
         </div>
+    )
+}
+
+const SubscriptionSuccess = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-xl font-semibold">Loading...</div>}>
+            <SubscriptionSuccessContent />
+        </Suspense>
     )
 }
 
