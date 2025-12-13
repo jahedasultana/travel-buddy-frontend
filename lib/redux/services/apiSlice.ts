@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { toast } from 'sonner';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://travelbuddybackend.vercel.app/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const baseQuery = fetchBaseQuery({
     baseUrl: API_BASE_URL,

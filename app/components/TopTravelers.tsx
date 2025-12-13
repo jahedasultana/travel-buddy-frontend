@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Star, MapPin, UserPlus, BadgeCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { api } from "@/app/utils/api";
-import { useSession } from "@/app/utils/auth-client";
+import { apiClient } from "@/app/utils/api";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 const defaultTravelers = [
     {
@@ -48,15 +48,15 @@ const defaultTravelers = [
 ];
 
 export default function TopTravelers() {
-    const { data: session } = useSession();
+    const { user } = useAuth();
     const [displayTravelers, setDisplayTravelers] = useState<any[]>(defaultTravelers);
     const [isPersonalized, setIsPersonalized] = useState(false);
 
     useEffect(() => {
         const fetchRecommendations = async () => {
-            if (session?.user) {
+            if (user) {
                 try {
-                    const matches = await api.users.getMatches();
+                    const matches = await apiClient.get('/users/matches');
                     if (matches && matches.length > 0) {
                         setDisplayTravelers(matches.slice(0, 4));
                         setIsPersonalized(true);
@@ -68,7 +68,7 @@ export default function TopTravelers() {
         };
 
         fetchRecommendations();
-    }, [session]);
+    }, [user]);
 
     return (
         <section className="py-24 bg-white dark:bg-gray-800">

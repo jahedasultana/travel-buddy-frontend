@@ -5,19 +5,19 @@ import { Check, Loader2, Sparkles } from "lucide-react";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { api } from "@/app/utils/api";
-import { useSession } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
 export default function PricingPage() {
-    const { data: session } = useSession();
+    const { user } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<'monthly' | 'yearly' | null>(null);
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
     const handleSubscribe = async (plan: 'monthly' | 'yearly') => {
-        if (!session) {
+        if (!user) {
             router.push("/login?redirect=/pricing");
             return;
         }

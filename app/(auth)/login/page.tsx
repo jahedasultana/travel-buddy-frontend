@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { Loader2, Mail, Lock, ArrowRight, Github } from "lucide-react";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
@@ -16,27 +16,24 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const router = useRouter();
+    const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         setError("");
 
-        await signIn.email({
-            email,
-            password,
-        }, {
-            onSuccess: () => {
-                toast.success("Logged in successfully");
-                router.push("/");
-                router.refresh();
-            },
-            onError: (ctx) => {
-                setError(ctx.error.message);
-                toast.error(ctx.error.message || "Failed to login");
-                setIsLoading(false);
-            }
-        });
+        try {
+            await login(email, password);
+            toast.success("Logged in successfully");
+            router.push("/");
+            router.refresh();
+        } catch (error: any) {
+            setError(error.message);
+            toast.error(error.message || "Failed to login");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -160,36 +157,7 @@ export default function LoginPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 grid grid-cols-2 gap-3">
-                                <button
-                                    type="button"
-                                    onClick={async () => {
-                                        await signIn.social({
-                                            provider: "google",
-                                            callbackURL: "/",
-                                        });
-                                    }}
-                                    className="w-full inline-flex justify-center py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-text-secondary dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-                                >
-                                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
-                                    </svg>
-                                    <span className="sr-only">Sign in with Google</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={async () => {
-                                        await signIn.social({
-                                            provider: "github",
-                                            callbackURL: "/",
-                                        });
-                                    }}
-                                    className="w-full inline-flex justify-center py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-text-secondary dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-                                >
-                                    <Github className="h-5 w-5" />
-                                    <span className="sr-only">Sign in with GitHub</span>
-                                </button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

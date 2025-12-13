@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { AuthProvider } from "./contexts/AuthContext";
 import StoreProvider from "./StoreProvider";
 import AuthGuard from "./components/AuthGuard";
 
@@ -31,12 +32,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <StoreProvider>
-            <AuthGuard>
-              {children}
-            </AuthGuard>
-            <Toaster position="top-center" richColors />
-          </StoreProvider>
+          <AuthProvider>
+            <StoreProvider>
+              <AuthGuard>
+                {children}
+              </AuthGuard>
+              <Toaster position="top-center" richColors />
+            </StoreProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

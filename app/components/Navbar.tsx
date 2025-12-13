@@ -4,22 +4,21 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, Compass, UserPlus, Map, User, LogOut, LayoutDashboard, Users, FileText, CreditCard, Plane } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSession, signOut } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const { data: session, isPending } = useSession();
+    const { user, logout } = useAuth();
     const router = useRouter();
 
     const handleLogout = async () => {
-        await signOut();
+        await logout();
         router.push("/");
         router.refresh();
     };
 
-    const user = session?.user as any;
     const isAdmin = user?.role === "ADMIN";
 
     return (
