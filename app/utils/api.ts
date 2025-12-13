@@ -87,16 +87,72 @@ export const apiClient = new ApiClient();
 export const api = {
     users: {
         getMatches: () => apiClient.get('/users/matches'),
-        getProfile: () => apiClient.get('/users/profile')
+        getProfile: () => apiClient.get('/users/profile'),
+        getById: (id: string) => apiClient.get(`/users/${id}`),
+        getAll: () => apiClient.get('/users'),
+        update: (id: string, data: any) => apiClient.put(`/users/${id}`, data),
+        delete: (id: string) => apiClient.delete(`/users/${id}`),
+        updateProfile: (data: any) => apiClient.put('/users/profile', data),
+        uploadImage: async (file: File) => {
+            const formData = new FormData();
+            formData.append('image', file);
+            const token = authClient.getAccessToken();
+            
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/upload-image`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    ...(token && { Authorization: `Bearer ${token}` })
+                },
+                credentials: 'include'
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Upload failed');
+            }
+            
+            return response.json();
+        },
+        search: (query: string, interests: string[]) => {
+            const params = new URLSearchParams();
+            if (query) params.append('q', query);
+            if (interests.length > 0) params.append('interests', interests.join(','));
+            return apiClient.get(`/users/search?${params.toString()}`);
+        }
     },
     travelPlans: {
-        getMyPlans: () => apiClient.get('/travel-plans/my')
+        getMyPlans: () => apiClient.get('/travel-plans/my'),
+        getById: (id: string) => apiClient.get(`/travel-plans/${id}`),
+        update: (id: string, data: any) => apiClient.put(`/travel-plans/${id}`, data),
+        delete: (id: string) => apiClient.delete(`/travel-plans/${id}`),
+        create: (data: any) => apiClient.post('/travel-plans', data),
+        complete: (id: string) => apiClient.put(`/travel-plans/${id}/complete`, {}),
+        getAll: () => apiClient.get('/travel-plans'),
+        search: (query: string) => apiClient.get(`/travel-plans/search?${query}`)
     },
     joinRequests: {
         getRequestsForUserPlans: () => apiClient.get('/join-requests/for-my-plans'),
-        getMyRequests: () => apiClient.get('/join-requests/my')
+        getMyRequests: () => apiClient.get('/join-requests/my'),
+        getPlanRequests: (planId: string) => apiClient.get(`/join-requests/plan/${planId}`),
+        create: (data: any) => apiClient.post('/join-requests', data),
+        update: (id: string, data: any) => apiClient.put(`/join-requests/${id}`, data),
+        delete: (id: string) => apiClient.delete(`/join-requests/${id}`),
+        respond: (id: string, status: string) => apiClient.put(`/join-requests/${id}/respond`, { status })
+    },
+    reviews: {
+        getUserReviews: (userId: string) => apiClient.get(`/reviews/user/${userId}`),
+        delete: (reviewId: string) => apiClient.delete(`/reviews/${reviewId}`),
+        getAll: () => apiClient.get('/reviews'),
+        create: (data: any) => apiClient.post('/reviews', data),
+        update: (id: string, data: any) => apiClient.put(`/reviews/${id}`, data)
     },
     payments: {
-        createCheckoutSession: (plan: 'monthly' | 'yearly') => apiClient.post('/payments/create-checkout-session', { plan })
+        createCheckoutSession: (plan: 'monthly' | 'yearly') => apiClient.post('/payments/create-checkout-session', { plan }),
+        verifySession: (sessionId: string) => apiClient.post('/payments/verify-session', { sessionId })
+    },
+    requests: {
+        getAll: () => apiClient.get('/join-requests'),
+        delete: (id: string) => apiClient.delete(`/join-requests/${id}`)
     }
 };

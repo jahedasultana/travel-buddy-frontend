@@ -147,7 +147,7 @@ export default function TravelPlanDetailsPage() {
 
         setIsJoinRequesting(true);
         try {
-            await api.requests.delete(existingRequest.id);
+            await api.joinRequests.delete(existingRequest.id);
             toast.success("Join request cancelled.");
             setExistingRequest(null);
         } catch (err: unknown) {

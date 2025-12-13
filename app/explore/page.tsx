@@ -52,12 +52,12 @@ export default function ExplorePage() {
                         // but search endpoint might natively return them.
                         // Ideally recommendations shouldn't be your own plans. 
                         // Client-side filter for now:
-                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user.id && p.status !== 'COMPLETED');
+                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user?.id && p.status !== 'COMPLETED');
                         setRecommendedPlans(filtered);
                     } else {
                         // Fallback: Fetch any plans (recent), exclude own, shuffle
                         const data = await api.travelPlans.search('');
-                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user.id && p.status !== 'COMPLETED');
+                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user?.id && p.status !== 'COMPLETED');
                         // Shuffle to give "random" recommendations
                         const shuffled = filtered.sort(() => 0.5 - Math.random());
                         setRecommendedPlans(shuffled.slice(0, 3));

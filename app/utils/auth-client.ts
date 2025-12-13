@@ -150,6 +150,90 @@ class AuthClient {
     getAccessToken() {
         return this.accessToken;
     }
+
+    async sendVerificationOtp(data: { email: string; type: string }, callbacks?: { onSuccess?: () => void; onError?: (ctx: any) => void }) {
+        try {
+            const response = await this.request('/auth/send-otp', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                callbacks?.onSuccess?.();
+                return await response.json();
+            }
+
+            const error = await response.json();
+            callbacks?.onError?.({ error });
+            throw new Error(error.message || 'Failed to send OTP');
+        } catch (error: any) {
+            callbacks?.onError?.({ error: { message: error.message } });
+            throw error;
+        }
+    }
+
+    async verifyEmail(data: { email: string; otp: string }, callbacks?: { onSuccess?: () => void; onError?: (ctx: any) => void }) {
+        try {
+            const response = await this.request('/auth/verify-email', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                callbacks?.onSuccess?.();
+                return await response.json();
+            }
+
+            const error = await response.json();
+            callbacks?.onError?.({ error });
+            throw new Error(error.message || 'Email verification failed');
+        } catch (error: any) {
+            callbacks?.onError?.({ error: { message: error.message } });
+            throw error;
+        }
+    }
+
+    async resetPassword(data: { email: string; otp: string; password: string }, callbacks?: { onSuccess?: () => void; onError?: (ctx: any) => void }) {
+        try {
+            const response = await this.request('/auth/reset-password', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                callbacks?.onSuccess?.();
+                return await response.json();
+            }
+
+            const error = await response.json();
+            callbacks?.onError?.({ error });
+            throw new Error(error.message || 'Password reset failed');
+        } catch (error: any) {
+            callbacks?.onError?.({ error: { message: error.message } });
+            throw error;
+        }
+    }
+
+    async changePassword(data: { currentPassword: string; newPassword: string; revokeOtherSessions?: boolean }, callbacks?: { onSuccess?: () => void; onError?: (ctx: any) => void }) {
+        try {
+            const response = await this.request('/auth/change-password', {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                callbacks?.onSuccess?.();
+                return await response.json();
+            }
+
+            const error = await response.json();
+            callbacks?.onError?.({ error });
+            throw new Error(error.message || 'Password change failed');
+        } catch (error: any) {
+            callbacks?.onError?.({ error: { message: error.message } });
+            throw error;
+        }
+    }
 }
 
 export const authClient = new AuthClient();
@@ -165,8 +249,15 @@ export const signUp = {
 
 export const signOut = authClient.logout.bind(authClient);
 
+// Email OTP functionality
+export const emailOtp = {
+    sendVerificationOtp: authClient.sendVerificationOtp.bind(authClient),
+    verifyEmail: authClient.verifyEmail.bind(authClient),
+    resetPassword: authClient.resetPassword.bind(authClient)
+};
+
 // Hook for session (compatibility)
-export const useSession = () => {
+export const useSession = (): { data: { user: User | null } | null; isPending: boolean; error: any } => {
     // This is a placeholder - components should use useAuth() instead
-    return { data: null, isPending: false, error: null };
+    return { data: { user: null }, isPending: false, error: null };
 };
