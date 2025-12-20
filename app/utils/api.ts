@@ -47,6 +47,7 @@ class ApiClient {
     }
 
     async post(endpoint: string, data: any) {
+
         const response = await this.request(endpoint, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -126,7 +127,24 @@ export const api = {
         getById: (id: string) => apiClient.get(`/travel-plans/${id}`),
         update: (id: string, data: any) => apiClient.put(`/travel-plans/${id}`, data),
         delete: (id: string) => apiClient.delete(`/travel-plans/${id}`),
-        create: (data: any) => apiClient.post('/travel-plans', data),
+        create: async (data: FormData) => {
+            const token = authClient.getAccessToken();
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/travel-plans`, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    ...(token && { Authorization: `Bearer ${token}` })
+                },
+                credentials: 'include'
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Create travel plan failed');
+            }
+            
+            return response.json();
+        },
         complete: (id: string) => apiClient.put(`/travel-plans/${id}/complete`, {}),
         getAll: () => apiClient.get('/travel-plans'),
         search: (query: string) => apiClient.get(`/travel-plans/search?${query}`)

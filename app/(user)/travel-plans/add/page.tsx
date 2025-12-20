@@ -33,22 +33,57 @@ export default function AddTravelPlanPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        // Validation
+        if (!destination.trim()) {
+            toast.error("Please enter a destination");
+            return;
+        }
+        if (!startDate) {
+            toast.error("Please select a start date");
+            return;
+        }
+        if (!endDate) {
+            toast.error("Please select an end date");
+            return;
+        }
+        if (!budget || isNaN(Number(budget)) || Number(budget) <= 0) {
+            toast.error("Please enter a valid budget");
+            return;
+        }
+        if (new Date(startDate) >= new Date(endDate)) {
+            toast.error("End date must be after start date");
+            return;
+        }
+        
         setIsLoading(true);
 
         try {
             const formData = new FormData();
-            formData.append("destination", destination);
+            formData.append("destination", destination.trim());
             formData.append("startDate", startDate);
             formData.append("endDate", endDate);
             formData.append("budget", budget);
             formData.append("travelType", travelType);
-            formData.append("description", description);
-            formData.append("interests", interests); // Send as comma-separated string
+            formData.append("description", description.trim());
+            formData.append("interests", interests.trim());
 
             images.forEach((image) => {
                 formData.append("images", image);
             });
-
+            
+            // Debug log
+            console.log("Form data being sent:", {
+                destination: destination.trim(),
+                startDate,
+                endDate,
+                budget,
+                travelType,
+                description: description.trim(),
+                interests: interests.trim(),
+                imageCount: images.length
+            });
+          
             await api.travelPlans.create(formData);
             toast.success("Travel plan created successfully!");
             router.push("/travel-plans");

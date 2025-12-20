@@ -7,13 +7,13 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import TravelPlanCard from "@/app/components/TravelPlanCard";
 import { Loader2, Plus, Search, Filter } from "lucide-react";
-import { useSession } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 export default function TravelPlansPage() {
     const [plans, setPlans] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
-    const { data: session } = useSession();
+    const { user, loading } = useAuth();
 
     useEffect(() => {
         const fetchPlans = async () => {
@@ -27,23 +27,19 @@ export default function TravelPlansPage() {
             }
         };
 
-        if (session) {
+        if (!loading && user) {
             fetchPlans();
-        } else {
+        } else if (!loading && !user) {
             setIsLoading(false);
         }
-    }, [session]);
+    }, [user, loading]);
 
-    if (!session) {
+    if (loading) {
         return (
             <div className="min-h-screen bg-background flex flex-col">
                 <Navbar />
-                <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center text-center">
-                    <h1 className="text-3xl font-bold text-text-primary dark:text-white mb-4">My Travel Plans</h1>
-                    <p className="text-text-secondary dark:text-gray-400 mb-6">Please login to view your travel plans.</p>
-                    <Link href="/login" className="px-6 py-3 bg-primary text-white rounded-full font-bold hover:bg-teal-800 transition-colors">
-                        Login
-                    </Link>
+                <main className="flex-grow flex items-center justify-center">
+                    <Loader2 className="animate-spin text-primary" size={40} />
                 </main>
                 <Footer />
             </div>
