@@ -11,7 +11,9 @@ interface User {
     role: string;
     image?: string;
     bio?: string;
+    isVerified?: boolean;
     createdAt?: string;
+    subscriptionStatus?: 'ACTIVE' | 'INACTIVE' | 'PAST_DUE' | 'CANCELED';
 }
 
 interface AuthContextType {

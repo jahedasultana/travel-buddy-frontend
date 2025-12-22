@@ -7,23 +7,25 @@ import { Check, ArrowRight, ShieldCheck, User, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { useSession } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { api } from "@/app/utils/api";
 import { toast } from "sonner";
 
 function PaymentSuccessContent() {
-    const { data: session } = useSession();
+    const { user, refreshUser } = useAuth();
     const searchParams = useSearchParams();
     const sessionId = searchParams.get('session_id');
     const [verifying, setVerifying] = useState(true);
     const verifiedRef = useRef(false);
 
     useEffect(() => {
-        if (session && sessionId && !verifiedRef.current) {
+        if (user && sessionId && !verifiedRef.current) {
             const verifyPayment = async () => {
                 verifiedRef.current = true; // Prevent double call
                 try {
                     await api.payments.verifySession(sessionId);
+                    // Refresh user data to get updated verification status
+                    await refreshUser();
                     toast.success("Payment verified successfully!");
                 } catch (error) {
                     console.error("Verification failed", error);
@@ -35,7 +37,7 @@ function PaymentSuccessContent() {
         } else if (!sessionId) {
             setVerifying(false);
         }
-    }, [session, sessionId]);
+    }, [user, sessionId, refreshUser]);
 
     return (
         <motion.div
@@ -113,7 +115,7 @@ function PaymentSuccessContent() {
                     <ArrowRight size={20} />
                 </Link>
                 <Link
-                    href={`/profile/${session?.user?.id}`}
+                    href={`/profile/${user?.id}`}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-gray-800 text-gray-700 dark:text-white font-bold rounded-2xl border-2 border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300"
                 >
                     <User size={20} />

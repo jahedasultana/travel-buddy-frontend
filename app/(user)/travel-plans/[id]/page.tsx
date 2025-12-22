@@ -6,7 +6,7 @@ import Link from "next/link";
 import { api } from "@/app/utils/api";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { useSession } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { Loader2, Calendar, DollarSign, ArrowLeft, Trash2, Edit2, CheckCircle, Star, BadgeCheck } from "lucide-react";
 import { toast } from "sonner";
 import ReviewModal from "@/app/components/ReviewModal";
@@ -15,7 +15,7 @@ import { TravelPlan, User, JoinRequest } from "@/app/types";
 export default function TravelPlanDetailsPage() {
     const params = useParams();
     const router = useRouter();
-    const { data: session } = useSession();
+    const { user } = useAuth();
     const [plan, setPlan] = useState<TravelPlan | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isJoinRequesting, setIsJoinRequesting] = useState(false);
@@ -27,7 +27,7 @@ export default function TravelPlanDetailsPage() {
 
     const [error, setError] = useState("");
 
-    const isOwner = session?.user?.id === plan?.userId;
+    const isOwner = user?.id === plan?.userId;
 
     useEffect(() => {
         const fetchPlan = async () => {
@@ -44,7 +44,7 @@ export default function TravelPlanDetailsPage() {
                     // If we are a participant, we might not see other participants unless we add an endpoint.
                     // Given the constraints, let's focus on Host -> Participant and Participant -> Host reviews.
 
-                    if (session?.user?.id === planData.userId) {
+                    if (user?.id === planData.userId) {
                         const requests = await api.joinRequests.getPlanRequests(planData.id);
                         const approved = requests.filter((r: JoinRequest) => r.status === 'APPROVED').map((r: JoinRequest) => r.user!);
                         setParticipants(approved as User[]);
@@ -66,11 +66,11 @@ export default function TravelPlanDetailsPage() {
         if (params.id) {
             fetchPlan();
         }
-    }, [params.id, session?.user?.id]);
+    }, [params.id, user?.id]);
 
     useEffect(() => {
         const checkExistingRequest = async () => {
-            if (session?.user?.id && plan && !isOwner) {
+            if (user?.id && plan && !isOwner) {
                 try {
                     const myRequests = await api.joinRequests.getMyRequests();
                     const request = myRequests.find((r: JoinRequest) => r.travelPlanId === plan.id);
@@ -81,10 +81,10 @@ export default function TravelPlanDetailsPage() {
             }
         };
 
-        if (session && plan && !isOwner) {
+        if (user && plan && !isOwner) {
             checkExistingRequest();
         }
-    }, [session, plan, isOwner]);
+    }, [user, plan, isOwner]);
 
     const handleDelete = async () => {
         if (!plan) return;
@@ -122,12 +122,20 @@ export default function TravelPlanDetailsPage() {
     };
 
     const handleJoinRequest = async () => {
-        if (!session) {
+        if (!user) {
             toast.error("You must be logged in to send a join request.");
             router.push("/login"); // Or open login modal
             return;
         }
         if (!plan) return;
+        
+        // Check if user is verified before allowing join request
+        if (!user?.isVerified) {
+            toast.error("You need a verified badge to send join requests.");
+            router.push("/pricing");
+            return;
+        }
+        
         setIsJoinRequesting(true);
         try {
             const newRequest = await api.joinRequests.create({ travelPlanId: plan!.id });
@@ -135,7 +143,12 @@ export default function TravelPlanDetailsPage() {
             toast.success("Join request sent successfully!");
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : "Failed to send join request.";
-            toast.error(message);
+            if (message.includes('verified badge')) {
+                toast.error(message);
+                router.push("/pricing");
+            } else {
+                toast.error(message);
+            }
         } finally {
             setIsJoinRequesting(false);
         }
@@ -368,14 +381,16 @@ export default function TravelPlanDetailsPage() {
                                                 </div>
                                             )
                                         ) : (
-                                            <button
-                                                onClick={handleJoinRequest}
-                                                disabled={isJoinRequesting || !session}
-                                                className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-teal-800 transition-colors shadow-lg shadow-teal-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                                            >
-                                                {isJoinRequesting && <Loader2 className="animate-spin h-5 w-5" />}
-                                                Request to Join Trip
-                                            </button>
+                                            !existingRequest && (
+                                                <button
+                                                    onClick={handleJoinRequest}
+                                                    disabled={isJoinRequesting || !user}
+                                                    className="w-full py-3 bg-primary text-white rounded-xl font-bold hover:bg-teal-800 transition-colors shadow-lg shadow-teal-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                                >
+                                                    {isJoinRequesting && <Loader2 className="animate-spin h-5 w-5" />}
+                                                    {!user?.isVerified ? "Subscribe to Join Trip" : "Request to Join Trip"}
+                                                </button>
+                                            )
                                         )}
                                         {existingRequest && existingRequest.status === 'PENDING' && (
                                             <button
