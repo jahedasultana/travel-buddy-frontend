@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
+import Image from "next/image";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,10 +28,8 @@ export default function Navbar() {
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
-                        <Link href="/" className="flex items-center gap-3 group">
-                            <div className="w-10 h-10 bg-gradient-to-br from-primary to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform -rotate-3 group-hover:rotate-0 transition-all duration-300">
-                                <Plane className="text-white transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" size={24} />
-                            </div>
+                        <Link href="/" className="flex items-center gap-1 group">
+                           <Image src="/taravel.png" height={60} width={60} alt="travel" />
                             <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-primary to-teal-600 dark:from-white dark:via-primary dark:to-teal-400 tracking-tight">
                                 TravelBuddy
                             </span>
