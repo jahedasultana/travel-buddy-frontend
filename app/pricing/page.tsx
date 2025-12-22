@@ -141,10 +141,16 @@ export default function PricingPage() {
                             </ul>
                             <button
                                 onClick={() => handleSubscribe(billingCycle)}
-                                disabled={isLoading !== null}
-                                className="mt-auto w-full py-3 px-6 rounded-xl bg-gradient-to-r from-primary to-teal-600 text-white font-bold hover:shadow-lg hover:shadow-primary/25 transition-all flex items-center justify-center gap-2"
+                                disabled={isLoading !== null || user?.subscriptionStatus === 'ACTIVE'}
+                                className={`mt-auto w-full py-3 px-6 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+                                    user?.subscriptionStatus === 'ACTIVE' 
+                                        ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                                        : 'bg-gradient-to-r from-primary to-teal-600 text-white hover:shadow-lg hover:shadow-primary/25'
+                                }`}
                             >
-                                {isLoading === billingCycle ? (
+                                {user?.subscriptionStatus === 'ACTIVE' ? (
+                                    "Already Subscribed"
+                                ) : isLoading === billingCycle ? (
                                     <>
                                         <Loader2 className="animate-spin" /> Processing...
                                     </>

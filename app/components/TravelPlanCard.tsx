@@ -42,6 +42,11 @@ export default function TravelPlanCard({ plan }: TravelPlanCardProps) {
                             {plan.user?.name}
                             {plan.user?.isVerified && <BadgeCheck size={14} className="text-blue-500 fill-blue-500/10" />}
                         </span>
+                        {!plan.user?.isVerified && (
+                            <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                                Subscribe to Join
+                            </span>
+                        )}
                     </div>
 
                     <h3 className="text-lg font-bold text-text-primary dark:text-white mb-2 group-hover:text-primary transition-colors max-w-[300px] truncate">

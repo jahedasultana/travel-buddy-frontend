@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { api } from "@/app/utils/api";
-import { useSession } from "@/app/utils/auth-client";
+import { useAuth } from "@/app/contexts/AuthContext";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import TravelPlanCard from "@/app/components/TravelPlanCard";
@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TravelPlan } from "@/app/types";
 
 export default function ExplorePage() {
-    const { data: session } = useSession();
+    const { user } = useAuth();
 
     // Main List State
     const [plans, setPlans] = useState<TravelPlan[]>([]);
@@ -32,7 +32,7 @@ export default function ExplorePage() {
     // Fetch Recommended Plans
     useEffect(() => {
         const fetchRecommended = async () => {
-            if (session?.user) {
+            if (user) {
                 try {
 
                     // Get latest profile to ensure we have interests
@@ -52,12 +52,12 @@ export default function ExplorePage() {
                         // but search endpoint might natively return them.
                         // Ideally recommendations shouldn't be your own plans. 
                         // Client-side filter for now:
-                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user?.id && p.status !== 'COMPLETED');
+                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== user?.id && p.status !== 'COMPLETED');
                         setRecommendedPlans(filtered);
                     } else {
                         // Fallback: Fetch any plans (recent), exclude own, shuffle
                         const data = await api.travelPlans.search('');
-                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== session.user?.id && p.status !== 'COMPLETED');
+                        const filtered = (data as TravelPlan[]).filter((p) => p.userId !== user?.id && p.status !== 'COMPLETED');
                         // Shuffle to give "random" recommendations
                         const shuffled = filtered.sort(() => 0.5 - Math.random());
                         setRecommendedPlans(shuffled.slice(0, 3));
@@ -69,7 +69,7 @@ export default function ExplorePage() {
         };
 
         fetchRecommended();
-    }, [session]);
+    }, [user]);
 
     const fetchPlans = useCallback(async () => {
         setIsLoading(true);
@@ -300,7 +300,7 @@ export default function ExplorePage() {
 
                     {/* Recommended Section (Logged-in only) - Hides on search */}
                     <AnimatePresence>
-                        {session?.user && recommendedPlans.length > 0 && !hasActiveFilters && (
+                        {user && recommendedPlans.length > 0 && !hasActiveFilters && (
                             <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
