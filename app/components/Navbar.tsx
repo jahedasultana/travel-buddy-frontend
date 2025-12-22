@@ -28,7 +28,7 @@ export default function Navbar() {
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
-                        <Link href="/" className="flex items-center gap-1 group">
+                        <Link href="/" className="flex items-center group">
                            <Image src="/taravel.png" height={60} width={60} alt="travel" />
                             <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-primary to-teal-600 dark:from-white dark:via-primary dark:to-teal-400 tracking-tight">
                                 TravelBuddy
