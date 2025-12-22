@@ -2,8 +2,8 @@
 
 :root {
   /* Brand Colors */
-  --primary: #3B82F6;
-  --secondary: #8B5CF6;
+  --primary: #58B09C;
+  --secondary: #006D77;
   
   /* Backgrounds */
   --background: #FAFAFA;
@@ -23,8 +23,8 @@
 
 .dark {
   /* Brand Colors */
-  --primary: #60A5FA;
-  --secondary: #A78BFA;
+  --primary: #58B09C;
+  --secondary: #006D77;
   
   /* Backgrounds */
   --background: #0F172A;
