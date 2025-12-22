@@ -71,6 +71,26 @@ class ApiClient {
         return response.json();
     }
 
+    async patch(endpoint: string, data?: any) {
+        const config: RequestInit = {
+            method: 'PATCH',
+        };
+        
+        if (data !== undefined) {
+            config.body = JSON.stringify(data);
+            config.headers = {
+                'Content-Type': 'application/json',
+            };
+        }
+        
+        const response = await this.request(endpoint, config);
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || `PATCH ${endpoint} failed`);
+        }
+        return response.json();
+    }
+
     async delete(endpoint: string) {
         const response = await this.request(endpoint, {
             method: 'DELETE',
@@ -145,7 +165,7 @@ export const api = {
             
             return response.json();
         },
-        complete: (id: string) => apiClient.put(`/travel-plans/${id}/complete`, {}),
+        complete: (id: string) => apiClient.patch(`/travel-plans/${id}/complete`),
         getAll: () => apiClient.get('/travel-plans'),
         search: (query: string) => apiClient.get(`/travel-plans/search?${query}`)
     },
