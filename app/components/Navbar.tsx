@@ -107,7 +107,7 @@ export default function Navbar() {
                                         className="flex items-center gap-2 text-text-secondary dark:text-gray-300 hover:text-primary transition-colors"
                                     >
                                         <img
-                                            src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                            src={user.image || "https://i.pravatar.cc/150?img=60"}
                                             alt={user.name}
                                             className="w-8 h-8 rounded-full object-cover border border-gray-200 dark:border-gray-700"
                                         />
@@ -249,7 +249,7 @@ export default function Navbar() {
                                             onClick={() => setIsOpen(false)}
                                         >
                                             <img
-                                                src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                                src={user.image || "https://i.pravatar.cc/150?img=60"}
                                                 alt={user.name}
                                                 className="w-8 h-8 rounded-full object-cover"
                                             />

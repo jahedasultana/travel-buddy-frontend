@@ -392,7 +392,7 @@ export default function AdminDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         <img
-                                                            src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={user.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={user.name}
                                                             className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-800 shadow-sm"
                                                         />
@@ -443,7 +443,7 @@ export default function AdminDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
                                                         <img
-                                                            src={plan.user?.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={plan.user?.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={plan.user?.name}
                                                             className="w-8 h-8 rounded-full object-cover border border-white dark:border-gray-800 shadow-sm"
                                                         />
@@ -488,7 +488,7 @@ export default function AdminDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
                                                         <img
-                                                            src={review.reviewer?.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={review.reviewer?.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={review.reviewer?.name}
                                                             className="w-8 h-8 rounded-full object-cover border border-white dark:border-gray-800 shadow-sm"
                                                         />
@@ -498,7 +498,7 @@ export default function AdminDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
                                                         <img
-                                                            src={review.reviewee?.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={review.reviewee?.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={review.reviewee?.name}
                                                             className="w-8 h-8 rounded-full object-cover border border-white dark:border-gray-800 shadow-sm"
                                                         />
@@ -539,7 +539,7 @@ export default function AdminDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2">
                                                         <img
-                                                            src={request.user?.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={request.user?.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={request.user?.name}
                                                             className="w-8 h-8 rounded-full object-cover border border-white dark:border-gray-800 shadow-sm"
                                                         />

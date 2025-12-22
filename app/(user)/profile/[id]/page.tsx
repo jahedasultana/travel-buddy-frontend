@@ -156,7 +156,7 @@ export default function ProfilePage() {
                                     <div className="relative inline-block">
                                         <div className="w-40 h-40 rounded-[2rem] border-[6px] border-white dark:border-gray-900 shadow-2xl overflow-hidden bg-white dark:bg-gray-800">
                                             <img
-                                                src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                                src={user.image || "https://i.pravatar.cc/150?img=60"}
                                                 alt={user.name}
                                                 className="w-full h-full object-cover"
                                             />

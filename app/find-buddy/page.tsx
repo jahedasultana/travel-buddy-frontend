@@ -119,7 +119,7 @@ export default function FindBuddyPage() {
                                     <div className="relative h-32 bg-gradient-to-r from-primary/10 to-teal-500/10 dark:from-gray-700 dark:to-gray-600">
                                         <div className="absolute -bottom-10 left-6">
                                             <img
-                                                src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                                src={user.image || "https://i.pravatar.cc/150?img=60"}
                                                 alt={user.name}
                                                 className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-md"
                                             />
