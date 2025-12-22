@@ -143,7 +143,7 @@ export default function EditProfileModal({ isOpen, onClose, user, onUpdate }: Ed
                         <div className="flex flex-col items-center">
                             <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
                                 <img
-                                    src={user?.image || "https://i.pravatar.cc/150?img=68"}
+                                    src={user?.image || "https://i.pravatar.cc/150?img=60"}
                                     alt="Profile"
                                     className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-md group-hover:opacity-75 transition-opacity"
                                 />

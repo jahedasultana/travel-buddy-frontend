@@ -291,7 +291,7 @@ export default function TravelPlanDetailsPage() {
                                                 <div key={participant.id} className="flex items-center justify-between bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                                                     <div className="flex items-center gap-3">
                                                         <img
-                                                            src={participant.image || "https://i.pravatar.cc/150?img=68"}
+                                                            src={participant.image || "https://i.pravatar.cc/150?img=60"}
                                                             alt={participant.name}
                                                             className="w-10 h-10 rounded-full object-cover"
                                                         />
@@ -331,7 +331,7 @@ export default function TravelPlanDetailsPage() {
                                 <h3 className="font-bold text-text-primary dark:text-white mb-4">Meet the Host</h3>
                                 <Link href={`/profile/${plan.user?.id}`} className="flex items-center gap-4 group">
                                     <img
-                                        src={plan.user?.image || "https://i.pravatar.cc/150?img=68"}
+                                        src={plan.user?.image || "https://i.pravatar.cc/150?img=60"}
                                         alt={plan.user?.name}
                                         className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm group-hover:border-primary transition-colors"
                                     />

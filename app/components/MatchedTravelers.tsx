@@ -65,7 +65,7 @@ export default function MatchedTravelers() {
                             <div className="flex items-center gap-4">
                                 <div className="relative">
                                     <img
-                                        src={user.image || "https://i.pravatar.cc/150?img=68"}
+                                        src={user.image || "https://i.pravatar.cc/150?img=60"}
                                         alt={user.name}
                                         className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-gray-700"
                                     />

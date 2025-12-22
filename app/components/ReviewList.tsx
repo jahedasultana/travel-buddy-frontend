@@ -29,7 +29,7 @@ export default function ReviewList({ reviews, currentUserId, onEdit, onDelete }:
                     <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
                             <img
-                                src={review.reviewer?.image || "https://i.pravatar.cc/150?img=68"}
+                                src={review.reviewer?.image || "https://i.pravatar.cc/150?img=60"}
                                 alt={review.reviewer?.name || "Anonymous"}
                                 className="w-10 h-10 rounded-full object-cover border border-gray-100 dark:border-gray-700"
                             />
